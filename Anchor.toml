@@ -12,7 +12,7 @@ vault_dapp = "H3Ksfne1kwnxp1tvc6Fi3xWjpzDiNgSn4BB3JodoAV2A"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

@@ -1,12 +1,11 @@
 /* eslint-disable */
 
 import * as anchor from '@coral-xyz/anchor'
-import { Program } from '@coral-xyz/anchor'
 import { Account, createMint, getOrCreateAssociatedTokenAccount, mintTo } from '@solana/spl-token'
 import { SystemProgram } from '@solana/web3.js'
 import { BN } from 'bn.js'
 import { expect } from 'chai';
-import { VaultDapp } from '../target/types/vault_dapp'
+import { VaultDapp } from '../target/types/vault_dapp';
 import { createUserAndAirdrop, getUserStatePda, getVaultStatePda } from './test-utils'
 
 describe('action', () => {
@@ -22,7 +21,7 @@ describe('action', () => {
   let bump: number
   let userStatePda: anchor.web3.PublicKey
 
-  before(async () => {
+  beforeAll(async () => {
     user = await createUserAndAirdrop()
 
     ;[userStatePda] = await getUserStatePda(user.publicKey)

@@ -3,10 +3,11 @@
 import * as anchor from '@coral-xyz/anchor'
 import { Program } from '@coral-xyz/anchor'
 import { SystemProgram } from '@solana/web3.js'
-import { expect } from 'chai';
-import { BN } from 'bn.js'
+import { assert } from "chai";
+// import { BN } from 'bn.js'
 import { VaultDapp } from '../target/types/vault_dapp'
 import { createUserAndAirdrop, getUserStatePda, getVaultStatePda } from './test-utils'
+import { BN } from 'bn.js';
 
 describe('initialize', () => {
   const provider = anchor.AnchorProvider.env()
@@ -16,7 +17,7 @@ describe('initialize', () => {
 
   let user: anchor.web3.Keypair
 
-  before(async () => {
+  beforeAll(async () => {
     user = await createUserAndAirdrop()
   })
 
@@ -40,7 +41,7 @@ describe('initialize', () => {
     const [vaultStatePda] = await getVaultStatePda(user.publicKey, vaultCount + 1)
     await program.methods
       .initialize(valid_name, valid_desc)
-      .accounts({
+      .accounts({ 
         signer: user.publicKey,
         vault: vaultStatePda,
         userState: userStatePda,
@@ -50,7 +51,7 @@ describe('initialize', () => {
       .rpc()
 
     const userStateAfter = await program.account.userState.fetch(userStatePda)
-    expect(userStateAfter.vaultCount.toNumber()).equal(vaultCount + 1)
+    expect(userStateAfter.vaultCount.toNumber()).toBe(vaultCount + 1)
   })
 
   it('Initialize Another Vault', async () => {
@@ -73,7 +74,7 @@ describe('initialize', () => {
       .rpc()
 
     const userStateAfter = await program.account.userState.fetch(userStatePda)
-    expect(userStateAfter.vaultCount.toNumber()).equal(vaultCount + 1)
+    expect(userStateAfter.vaultCount.toNumber()).toBe(vaultCount + 1)
   })
 
   it('Fails Vault Initialization', async () => {
@@ -97,7 +98,7 @@ describe('initialize', () => {
         .rpc()
     } catch (error) {
       if (error instanceof Error) {
-        expect(error.message).contain('Name should be less than 32 characters.')
+        expect(error.message).toContain('Name should be less than 32 characters.')
       }
     }
   })
